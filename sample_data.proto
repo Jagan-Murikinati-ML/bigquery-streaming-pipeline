@@ -1,0 +1,4 @@
+message SampleData {
+  required string name = 1;
+  required int64 age = 2;
+}
