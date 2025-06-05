@@ -1,5 +1,13 @@
 google-cloud-bigquery==3.20.1
 google-cloud-bigquery-storage==2.24.0
-protobuf==4.25.3
+protobuf==5.26.3
 grpcio==1.64.0
 grpcio-tools==1.64.0
+google-api-core[grpc]==2.25.0
+google-auth==2.40.3
+google-cloud-core==2.4.3
+google-resumable-media==2.7.2
+packaging==25.0
+python-dateutil==2.9.0.post0
+requests==2.32.3
+proto-plus==1.26.1
