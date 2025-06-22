@@ -1,0 +1,408 @@
+firebaseappcheck
+Metrics from Firebase. Launch stages of these metrics: BETA
+
+The "metric type" strings in this table must be prefixed with firebaseappcheck.googleapis.com/. That prefix has been omitted from the entries in the table. When querying a label, use the metric.labels. prefix; for example, metric.labels.LABEL="VALUE".
+
+Metric type Launch stage (Resource hierarchy levels)
+Display name
+Kind, Type, Unit
+Monitored resources	Description
+Labels
+resources/verification_count BETA  (project)
+Firebase App Check resource verification count
+DELTA, INT64, 1
+firebaseappcheck.googleapis.com/Resource	Verifications performed by an integrating service for a target resource.
+result: Result of the token verification; one of [ALLOW, DENY].
+security: Security property of the request; one of [VALID, INVALID, MISSING_OUTDATED_CLIENT, MISSING_UNKNOWN_ORIGIN].
+app_id: Firebase App ID.
+services/verdict_count DEPRECATED  (project)
+Firebase App Check verdict count
+DELTA, INT64, 1
+firebaseappcheck.googleapis.com/Instance	Verdicts from performing Firebase App Check verifications.
+result: Result of the token verification; one of [ALLOW, DENY].
+security: Security property of the request; one of [VALID, INVALID, MISSING_OUTDATED_CLIENT, MISSING_UNKNOWN_ORIGIN].
+services/verification_count BETA  (project)
+Firebase App Check service verification count
+DELTA, INT64, 1
+firebaseappcheck.googleapis.com/Service	Verifications performed by an integrating service.
+result: Result of the token verification; one of [ALLOW, DENY].
+security: Security property of the request; one of [VALID, INVALID, MISSING_OUTDATED_CLIENT, MISSING_UNKNOWN_ORIGIN].
+app_id: Firebase App ID.
+firebaseapphosting
+Metrics from Firebase. Launch stages of these metrics: BETA
+
+The "metric type" strings in this table must be prefixed with firebaseapphosting.googleapis.com/. That prefix has been omitted from the entries in the table. When querying a label, use the metric.labels. prefix; for example, metric.labels.LABEL="VALUE".
+
+Metric type Launch stage (Resource hierarchy levels)
+Display name
+Kind, Type, Unit
+Monitored resources	Description
+Labels
+backend/request_count BETA  (project)
+Request Count
+DELTA, INT64, 1
+firebaseapphosting.googleapis.com/Backend	Count of user requests.
+cache_hit: Whether the requests were served from the CDN cache.
+response_code: The HTTP response code served to the end user (200, 404, etc.).
+response_code_class: The HTTP response code class of the response served to the end user (200, 400, etc.).
+cdn_metro: The Cloud CDN metro that this traffic was served out of.
+domain_name: The domain name that this traffic was served for.
+backend/response_bytes_count BETA  (project)
+Response Bytes Count
+DELTA, INT64, By
+firebaseapphosting.googleapis.com/Backend	Bytes sent in response to user requests.
+cache_hit: Whether the requests were served from the CDN cache.
+response_code: The HTTP response code served to the end user (200, 404, etc.).
+response_code_class: The HTTP response code class of the response served to the end user (200, 400, etc.).
+cdn_metro: The Cloud CDN metro that this traffic was served out of.
+domain_name: The domain name that this traffic was served for.
+firebaseauth
+Metrics from Firebase. Launch stages of these metrics: GA
+
+The "metric type" strings in this table must be prefixed with firebaseauth.googleapis.com/. That prefix has been omitted from the entries in the table. When querying a label, use the metric.labels. prefix; for example, metric.labels.LABEL="VALUE".
+
+Metric type Launch stage (Resource hierarchy levels)
+Display name
+Kind, Type, Unit
+Monitored resources	Description
+Labels
+phone_auth/phone_verification_count GA  (project)
+Phone Verification Metrics
+DELTA, INT64, 1
+firebase_auth	Detailed count of phone verification. Sampled every 60 seconds. After sampling, data is not visible for up to 180 seconds.
+tier_name: Tier name for verified phone number.
+country_code: Country code for verified phone number.
+firebasedatabase
+Metrics from Firebase. Launch stages of these metrics: GA
+
+The "metric type" strings in this table must be prefixed with firebasedatabase.googleapis.com/. That prefix has been omitted from the entries in the table. When querying a label, use the metric.labels. prefix; for example, metric.labels.LABEL="VALUE".
+
+Metric type Launch stage (Resource hierarchy levels)
+Display name
+Kind, Type, Unit
+Monitored resources	Description
+Labels
+io/database_load GA  (project)
+Database Load
+GAUGE, DOUBLE, 1
+firebase_namespace	Fraction of database load, grouped by type. Sampled every 60 seconds. After sampling, data is not visible for up to 1800 seconds.
+type: The message type that the actor processed.
+io/persisted_bytes_count GA  (project)
+Saved Bytes
+DELTA, INT64, By
+firebase_namespace	Bytes of data persisted to disk.
+io/sent_responses_count GA  (project)
+Responses sent
+DELTA, INT64, 1
+firebase_namespace	Number of responses sent or broadcasted to clients.
+io/utilization GA  (project)
+I/O utilization
+GAUGE, DOUBLE, 1
+firebase_namespace	Fraction of I/O used. Sampled every 60 seconds. After sampling, data is not visible for up to 1800 seconds.
+network/active_connections GA  (project)
+Connections
+GAUGE, INT64, 1
+firebase_namespace	The number of outstanding connections. Sampled every 60 seconds. After sampling, data is not visible for up to 1800 seconds.
+network/api_hits_count GA  (project)
+API Hits
+DELTA, INT64, 1
+firebase_namespace	The number of hits against your database grouped by type.
+operation_type: The operation type, this lines up with the profiler.
+network/broadcast_load GA  (project)
+Broadcast Load
+GAUGE, DOUBLE, 1
+firebase_namespace	Utilization of the time it takes to prep and send broadcasts to clients. Sampled every 60 seconds. After sampling, data is not visible for up to 1800 seconds.
+network/disabled_for_overages GA  (project)
+Disabled for network
+GAUGE, BOOL, 
+firebase_namespace	Indicates if the Firebase database has been disabled for network overages. Sampled every 900 seconds. After sampling, data is not visible for up to 1800 seconds.
+network/https_requests_count GA  (project)
+HTTPS Requests Received
+DELTA, INT64, 1
+firebase_namespace	Number of HTTPS requests received.
+reused_ssl_session: If the SSL Session was reused.
+network/monthly_sent GA  (project)
+Bytes sent monthly
+GAUGE, INT64, By
+firebase_namespace	The total outgoing bytes sent aggregated and reset monthly. Sampled every 1800 seconds. After sampling, data is not visible for up to 5400 seconds.
+network/monthly_sent_limit GA  (project)
+Bytes sent limit
+GAUGE, INT64, By
+firebase_namespace	The monthly network limit for the Firebase database. Sampled every 900 seconds. After sampling, data is not visible for up to 1800 seconds.
+network/sent_bytes_count GA  (project)
+Total billed bytes
+DELTA, INT64, By
+firebase_namespace	The outgoing bandwidth used by the database, including encryption and protocol overhead.
+network/sent_payload_and_protocol_bytes_count GA  (project)
+Payload and Protocol Bytes sent
+DELTA, INT64, By
+firebase_namespace	The outgoing bandwidth usage without encryption overhead.
+network/sent_payload_bytes_count GA  (project)
+Payload Bytes Sent
+DELTA, INT64, By
+firebase_namespace	The outgoing bandwidth usage without encryption nor protocol.
+rules/evaluation_count GA  (project)
+Rule evaluations
+DELTA, INT64, 1
+firebase_namespace	The number of Firebase Realtime Database Security Rule evaluations performed in response to write and read requests.
+request_method: The request method.
+ruleset_label: The ruleset label.
+result: The result.
+storage/disabled_for_overages GA  (project)
+Disabled for storage
+GAUGE, BOOL, 
+firebase_namespace	Indicates if the Firebase database has been disabled for storage overages. Sampled every 86400 seconds. After sampling, data is not visible for up to 86400 seconds.
+storage/limit GA  (project)
+Bytes stored limit
+GAUGE, INT64, By
+firebase_namespace	The storage limit for the Firebase database. Sampled every 900 seconds. After sampling, data is not visible for up to 1800 seconds.
+storage/total_bytes GA  (project)
+Bytes stored
+GAUGE, INT64, By
+firebase_namespace	The size of the Firebase database storage. Sampled every 86400 seconds. After sampling, data is not visible for up to 86400 seconds.
+firebasedataconnect
+Metrics from Firebase. Launch stages of these metrics: BETA
+
+The "metric type" strings in this table must be prefixed with firebasedataconnect.googleapis.com/. That prefix has been omitted from the entries in the table. When querying a label, use the metric.labels. prefix; for example, metric.labels.LABEL="VALUE".
+
+Metric type Launch stage (Resource hierarchy levels)
+Display name
+Kind, Type, Unit
+Monitored resources	Description
+Labels
+connector/datasource_latencies BETA  (project)
+Datasource Latency
+DELTA, DISTRIBUTION, ms
+firebasedataconnect.googleapis.com/Connector	The latency of the data sources queried by the pre-defined operation executed by the connector.
+type: The type of operation.
+response_code: The response code for the operation.
+response_code_class: The response code class for the operation: 2xx, 3xx, 4xx, 5xx or 0 for none.
+operation_name: The name of the operation.
+client_version: The client version.
+client_platform: The client platform.
+datasource_id: The datasource ID.
+connector/datasource_request_bytes_count BETA  (project)
+Datasource Request Bytes
+DELTA, INT64, By
+firebasedataconnect.googleapis.com/Connector	The number of bytes sent to the data source queried by the pre-defined operation executed by the connector.
+type: The type of operation.
+response_code: The response code for the operation.
+response_code_class: The response code class for the operation: 2xx, 3xx, 4xx, 5xx or 0 for none.
+operation_name: The name of the operation.
+client_version: The client version.
+client_platform: The client platform.
+datasource_id: The datasource ID.
+connector/datasource_response_bytes_count BETA  (project)
+Datasource Response Bytes
+DELTA, INT64, By
+firebasedataconnect.googleapis.com/Connector	The number of bytes returned by the data source queried by the pre-defined operation executed by the connector.
+type: The type of operation.
+response_code: The response code for the operation.
+response_code_class: The response code class for the operation: 2xx, 3xx, 4xx, 5xx or 0 for none.
+operation_name: The name of the operation.
+client_version: The client version.
+client_platform: The client platform.
+datasource_id: The datasource ID.
+connector/network/sent_bytes_count BETA  (project)
+Network Data Transferred Out
+DELTA, INT64, By
+firebasedataconnect.googleapis.com/Connector	The number of bytes transferred out by the connector.
+type: The type of operation.
+response_code: The response code for the operation.
+response_code_class: The response code class for the operation: 2xx, 3xx, 4xx, 5xx or 0 for none.
+operation_name: The name of the operation.
+client_version: The client version.
+client_platform: The client platform.
+connector/operation_count BETA  (project)
+Operations
+DELTA, INT64, 1
+firebasedataconnect.googleapis.com/Connector	The number of pre-defined operations executed by the connector.
+type: The type of operation.
+response_code: The response code for the operation.
+response_code_class: The response code class for the operation: 2xx, 3xx, 4xx, 5xx or 0 for none.
+operation_name: The name of the operation.
+client_version: The client version.
+client_platform: The client platform.
+connector/operation_latencies BETA  (project)
+Operation Latency
+DELTA, DISTRIBUTION, ms
+firebasedataconnect.googleapis.com/Connector	The latency of the pre-defined operations executed by the connector.
+type: The type of operation.
+response_code: The response code for the operation.
+response_code_class: The response code class for the operation: 2xx, 3xx, 4xx, 5xx or 0 for none.
+operation_name: The name of the operation.
+client_version: The client version.
+client_platform: The client platform.
+service/datasource_latencies BETA  (project)
+Datasource Latency
+DELTA, DISTRIBUTION, ms
+firebasedataconnect.googleapis.com/Service	The latency of the data sources queried by arbitrary, admin operations executed directly on the service.
+type: The type of operation.
+response_code: The response code for the operation.
+response_code_class: The response code class for the operation: 2xx, 3xx, 4xx, 5xx or 0 for none.
+operation_name: The name of the operation.
+client_version: The client version.
+client_platform: The client platform.
+datasource_id: The datasource ID.
+service/datasource_request_bytes_count BETA  (project)
+Datasource Request Bytes
+DELTA, INT64, By
+firebasedataconnect.googleapis.com/Service	The number of bytes sent to the data source queried by arbitrary, admin operations executed directly on the service.
+type: The type of operation.
+response_code: The response code for the operation.
+response_code_class: The response code class for the operation: 2xx, 3xx, 4xx, 5xx or 0 for none.
+operation_name: The name of the operation.
+client_version: The client version.
+client_platform: The client platform.
+datasource_id: The datasource ID.
+service/datasource_response_bytes_count BETA  (project)
+Datasource Response Bytes
+DELTA, INT64, By
+firebasedataconnect.googleapis.com/Service	The number of bytes returned by the data sources queried by arbitrary, admin operations executed directly on the service.
+type: The type of operation.
+response_code: The response code for the operation.
+response_code_class: The response code class for the operation: 2xx, 3xx, 4xx, 5xx or 0 for none.
+operation_name: The name of the operation.
+client_version: The client version.
+client_platform: The client platform.
+datasource_id: The datasource ID.
+service/network/sent_bytes_count BETA  (project)
+Network Data Transfer Out
+DELTA, INT64, By
+firebasedataconnect.googleapis.com/Service	The number of bytes transferred out by arbitrary, admin operations executed directly on the service.
+type: The type of operation.
+response_code: The response code for the operation.
+response_code_class: The response code class for the operation: 2xx, 3xx, 4xx, 5xx or 0 for none.
+operation_name: The name of the operation.
+client_version: The client version.
+client_platform: The client platform.
+service/operation_count BETA  (project)
+Operations
+DELTA, INT64, 1
+firebasedataconnect.googleapis.com/Service	The number of arbitrary, admin operations executed directly on the service.
+type: The type of operation.
+response_code: The response code for the operation.
+response_code_class: The response code class for the operation: 2xx, 3xx, 4xx, 5xx or 0 for none.
+operation_name: The name of the operation.
+client_version: The client version.
+client_platform: The client platform.
+service/operation_latencies BETA  (project)
+Operation Latency
+DELTA, DISTRIBUTION, ms
+firebasedataconnect.googleapis.com/Service	The latency of arbitrary, admin operations executed directly on the service.
+type: The type of operation.
+response_code: The response code for the operation.
+response_code_class: The response code class for the operation: 2xx, 3xx, 4xx, 5xx or 0 for none.
+operation_name: The name of the operation.
+client_version: The client version.
+client_platform: The client platform.
+firebaseextensions
+Metrics from Firebase. Launch stages of these metrics: BETA
+
+The "metric type" strings in this table must be prefixed with firebaseextensions.googleapis.com/. That prefix has been omitted from the entries in the table. When querying a label, use the metric.labels. prefix; for example, metric.labels.LABEL="VALUE".
+
+Metric type Launch stage (Resource hierarchy levels)
+Display name
+Kind, Type, Unit
+Monitored resources	Description
+Labels
+extension/version/active_instances BETA  (project)
+Active instances
+GAUGE, INT64, 1
+firebaseextensions.googleapis.com/ExtensionVersion	The number of active instances of the published extension version. Sampled every 60 seconds. After sampling, data is not visible for up to 60 seconds.
+firebasehosting
+Metrics from Firebase. Launch stages of these metrics: GA
+
+The "metric type" strings in this table must be prefixed with firebasehosting.googleapis.com/. That prefix has been omitted from the entries in the table. When querying a label, use the metric.labels. prefix; for example, metric.labels.LABEL="VALUE".
+
+Metric type Launch stage (Resource hierarchy levels)
+Display name
+Kind, Type, Unit
+Monitored resources	Description
+Labels
+network/monthly_sent GA  (project)
+Bytes sent monthly
+GAUGE, INT64, By
+firebase_domain	The total outgoing bytes sent, aggregated and reset monthly. Sampled every 28800 seconds. After sampling, data is not visible for up to 4200 seconds.
+network/monthly_sent_limit GA  (project)
+Bytes sent limit
+GAUGE, INT64, By
+firebase_domain	The monthly network limit for Firebase Hosting. Sampled every 28800 seconds. After sampling, data is not visible for up to 4200 seconds.
+network/sent_bytes_count GA  (project)
+Bytes sent
+DELTA, INT64, By
+firebase_domain	The outgoing bandwidth usage for Firebase Hosting.
+storage/limit GA  (project)
+Bytes stored limit
+GAUGE, INT64, By
+firebase_domain	The storage limit for Firebase Hosting. Sampled every 28800 seconds.
+storage/total_bytes GA  (project)
+Bytes stored
+GAUGE, INT64, By
+firebase_domain	The size of the Firebase Hosting storage. Sampled every 28800 seconds.
+firebasestorage
+Metrics from Cloud Storage for Firebase. Launch stages of these metrics: BETA
+
+The "metric type" strings in this table must be prefixed with firebasestorage.googleapis.com/. That prefix has been omitted from the entries in the table. When querying a label, use the metric.labels. prefix; for example, metric.labels.LABEL="VALUE".
+
+Metric type Launch stage (Resource hierarchy levels)
+Display name
+Kind, Type, Unit
+Monitored resources	Description
+Labels
+rules/evaluation_count BETA  (project)
+Rule evaluations
+DELTA, INT64, 1
+gcs_bucket	The number of Cloud Storage for Firebase Security Rules evaluations performed in response to write or read requests. Sampled every 60 seconds. After sampling, data is not visible for up to 180 seconds.
+request_method: The method/operation type of the request: CREATE, UPDATE, or DELETE; or GET, LIST.
+ruleset_label: The ruleset label indicating whether it's the current production release.
+result: The evaluation result: ALLOW, DENY, or ERROR.
+firebasevertexai
+Metrics from Gemini in Firebase Launch stages of these metrics: BETA
+
+The "metric type" strings in this table must be prefixed with firebasevertexai.googleapis.com/. That prefix has been omitted from the entries in the table. When querying a label, use the metric.labels. prefix; for example, metric.labels.LABEL="VALUE".
+
+Metric type Launch stage (Resource hierarchy levels)
+Display name
+Kind, Type, Unit
+Monitored resources	Description
+Labels
+model/gen_ai_client_operation_duration BETA  (project)
+Operation Duration
+DELTA, DISTRIBUTION, 1
+firebasevertexai.googleapis.com/Model	The duration from request to response.
+gcp_firebase_app_id: The Firebase App ID.
+gcp_firebase_app_version: The Firebase App version, such as 1.0.0.
+gcp_firebase_request_framework_name: The SDK framework used to make the request, such as `swift_sdk`.
+gen_ai_firebase_response_status: `success` or `failure`'.
+gen_ai_operation_name: The operation name, such as `generate_content`.
+gen_ai_request_model: The model specified in the request, such as `gemini-0.0-flash`.
+gen_ai_response_model: The specific model that generated the response, such as `gemini-0.0-flash-002`.
+error_type: A short string representing the error type, such as `INVALID_ARGUMENT`, `RESOURCE_EXHAUSTED` or `BLOCKED_SAFETY`.
+model/gen_ai_client_token_usage BETA  (project)
+Client Token Usage
+DELTA, INT64, 1
+firebasevertexai.googleapis.com/Model	The number of tokens used in a request/response.
+gcp_firebase_app_id: The Firebase App ID.
+gcp_firebase_app_version: The Firebase App version, such as 1.0.0.
+gcp_firebase_request_framework_name: The SDK framework used to make the request, such as `swift_sdk`.
+gen_ai_firebase_response_status: `success` or `failure`'.
+gen_ai_operation_name: The operation name, such as `generate_content`.
+gen_ai_token_type: The type of token, such as `input` or `output`.
+gen_ai_request_model: The model specified in the request, such as `gemini-0.0-flash`.
+gen_ai_response_model: The specific model that generated the response, such as `gemini-0.0-flash-002`.
+error_type: A short string representing the error type, such as `INVALID_ARGUMENT`, `RESOURCE_EXHAUSTED` or `BLOCKED_SAFETY`.
+model/gen_ai_firebase_modality_usage BETA  (project)
+Modality Usage
+DELTA, INT64, 1
+firebasevertexai.googleapis.com/Model	The count of token usage of a particular modality.
+gcp_firebase_app_id: The Firebase App ID.
+gcp_firebase_app_version: The Firebase App version, such as 1.0.0.
+gcp_firebase_request_framework_name: The SDK framework used to make the request, such as `swift_sdk`.
+gen_ai_firebase_response_status: `success` or `failure`'.
+gen_ai_firebase_usage_type: The direction of usage, such as `input` or `output`.
+gen_ai_firebase_modality_type: One of the modalities, such as `text`, `image`, `video`, `audio`, or `document`.
+gen_ai_operation_name: The operation name, such as `generate_content`.
+gen_ai_request_model: The model specified in the request, such as `gemini-0.0-flash`.
+gen_ai_response_model: The specific model that generated the response, such as `gemini-0.0-flash-002`.
+error_type: A short string representing the error type, such as `INVALID_ARGUMENT`, `RESOURCE_EXHAUSTED` or `BLOCKED_SAFETY`.
