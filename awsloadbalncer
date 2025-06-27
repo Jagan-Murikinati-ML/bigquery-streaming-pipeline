@@ -1,0 +1,434 @@
+"""
+AWS Application load balancer
+"""
+type AwsApplicationELB implements Entity & HealthEntity & StatefulEntity @key(fields: "id")
+@telemetryMappingCondition(conditions: [{key: "cloud.provider", values: ["aws"]}, {key : "sw.cloud.aws.Applicationloadbalancer"}])
+{
+    # inherited from base Entity
+    """
+    Unique identifier of an entity
+    """
+    id: ID!
+
+    """
+    Entity type.
+    """
+    type: String!
+
+    """
+    Application load balancer name
+    """
+    name: String @telemetryMapping(resourceAttributes: ["sw.cloud.aws.alb.name"]) @property(sortable: true)
+
+    """
+    Entity display name / alias. This value is equal to name unless it's explicitly overriden. 
+    """
+    displayName: String
+
+    """
+    Date and time of entity creation in UTC.
+    """
+    createdTime: String
+
+    """
+    Date and time of last entity update in UTC.
+    """
+    updatedTime: String
+
+    """
+    Date and time when the entity has last received telemetry in UTC.
+    """
+    lastSeenTime: String
+
+    """
+    How long the entity may not be receiving updates/telemetry before it should be considered "unknown".
+    The platform may stop doing certain things with the entity when it is in unknown state.
+    """
+    maxUnknownPeriodMinutes: Int
+    """
+    Flag telling if given entity is in maintenance mode.
+    """
+    inMaintenance: Boolean
+    """
+    Flag telling if given entity is in unknown state. 
+    Entity gets to unknown state if it doesn't receive eny telemetry for more than 'maxUnknownPeriodMinutes'.
+    """
+    isUnknown: Boolean
+    """
+    Entity tags. Tag is a key-value pair, where there may be only single tag value for the same key.
+    """
+    tags: [KeyValuePair!]
+    
+
+    """
+    Application load balancer
+    """
+    loadBalancer: String! @telemetryMapping(resourceAttributes: ["sw.cloud.aws.Applicationloadbalancer"], hashKeyOrder: 2)
+
+    """
+    Event Source as seen in logs eg: ec2.amazonaws.com
+    """
+    eventSource: String @telemetryMapping(resourceAttributes: ["sw.cloud.aws.event.source"])
+
+    """
+    Application load balancer target group
+    """
+    targetGroup: String @telemetryMapping(resourceAttributes: ["sw.cloud.aws.loadbalancer.targetgroup"])
+
+    """
+    The Availability Zone of the instance.
+    """
+    availabilityZone: String @telemetryMapping(resourceAttributes: ["cloud.availability_zone"])
+
+    """
+    DNS name of Application load balancer
+    """
+    dnsName: String @telemetryMapping(resourceAttributes: ["sw.cloud.aws.alb.dnsname"]) @property(sortable: true)
+
+    """
+    This field represents the ALB state.
+    """
+    state: State @telemetryMapping(resourceAttributes: ["native_state"], targetNestedProperty: "nativeState")
+
+    """
+    This field represents the type of load balancer (application in this case).
+    """
+    loadBalancerType: String @telemetryMapping(resourceAttributes: ["sw.cloud.aws.alb.type"])
+
+    """
+    This field represents the ID of the VPC for the load balancer.
+    """
+    vpcId: String @telemetryMapping(resourceAttributes: ["sw.cloud.aws.alb.vpcid"])
+
+    """
+    This field represents schema of load balancer.
+    """
+    scheme: String @telemetryMapping(resourceAttributes: ["sw.cloud.aws.alb.scheme"]) @property(
+       filterable: true,
+       logicalType: "SchemaType"
+    )
+
+    """
+    This field represents the ip address for the load balancer.
+    """
+    ipaddress: String @telemetryMapping(resourceAttributes: ["sw.cloud.aws.alb.ipaddress"]) @property(
+       filterable: true,
+       logicalType: "IpAddressType"
+    )
+
+    """ 
+    Unique ID within SWO to indentify the resource based on cloud attributes
+    """
+    swid: String @telemetryMapping(resourceAttributes: ["sw.cloud.awsapplicationelb.swid"])
+
+    """ 
+    service category to which it belongs to eg: Networking, Database, Compute.
+    """
+    serviceCategory: String @telemetryMapping(resourceAttributes: ["sw.cloud.aws.service.category"])
+
+    """
+    Separate geographic area that AWS uses to house its infrastructure.
+    """
+    region: String! @telemetryMapping(resourceAttributes: ["cloud.region"]) @property(filterable: true)
+
+    """
+    Cloud provider Name
+    """
+    cloudProvider: String @telemetryMapping(resourceAttributes: ["cloud.provider"])
+
+    """
+    The cloudaccountId of the cloudAccount to which this load balacer belongs.
+    """
+    cloudAccountId: String! @telemetryMapping(resourceAttributes: ["sw.entity.cloudaccount.id"]) @deprecated(reason: "Attribute name has changed to cloudAccountEntityId")
+    cloudAccountEntityId: String! @telemetryMapping(resourceAttributes: ["sw.entity.cloudaccount.id"], hashKeyOrder: 1)
+
+    """
+    AWS Account Number
+    """
+    cloudAccountNumber: String! @telemetryMapping(resourceAttributes:["cloud.account.id"])
+
+    """
+    Set of fields to get to things related to a given entity
+    """
+    related: RelatedEntityFields
+
+    """
+    List of entity extensions that are currently set on given entity
+    """
+    extensions: [String!] @property(collectionType: SET)
+
+    """
+    Relation: Cloud Account to which this ALB belongs
+    """
+    cloudAccount: CloudAccount @relationship(type: "Has", direction: IN) @telemetryRelationship
+
+    healthScore: HealthScore
+
+    """
+    The total number of concurrent TCP connections active from clients to the load balancer and from the load balancer to targets.
+    """
+    activeConnectionCount: Metric! @metric(name: "AWS.ApplicationELB.ActiveConnectionCount", units: "count")
+
+    """
+    The number of TLS connections initiated by the client that did not establish a session with the load balancer due to a TLS error.
+    """
+    clientTlsNegotiationErrorCount: Metric! @metric(name: "AWS.ApplicationELB.ClientTLSNegotiationErrorCount", units: "count")
+
+    """
+    The number of load balancer capacity units (LCU) used by your load balancer.
+    """
+    consumedLcus: Metric! @metric(name: "AWS.ApplicationELB.ConsumedLCUs", units: "count")
+
+    """
+    The number of requests that do not comply with RFC 7230.
+    """
+    desyncMitigationModeNonCompliantRequestCount: Metric! @metric(name: "AWS.ApplicationELB.DesyncMitigationMode_NonCompliant_Request_Count", units: "count")
+
+    """
+    The number of requests where the load balancer removed HTTP headers with header fields that are not valid before routing the request.
+    """
+    droppedInvalidHeaderRequestCount: Metric! @metric(name: "AWS.ApplicationELB.DroppedInvalidHeaderRequestCount", units: "count")
+
+    """
+    The number of requests routed by the load balancer that had HTTP headers with header fields that are not valid.
+    """
+    forwardedInvalidHeaderRequestCount: Metric! @metric(name: "AWS.ApplicationELBForwardedInvalidHeaderRequestCount.", units: "count")
+
+    """
+    The number of gRPC requests processed over IPv4 and IPv6.
+    """
+    grpcRequestCount: Metric! @metric(name: "AWS.ApplicationELB.GrpcRequestCount", units: "count")
+
+    """
+    The number of fixed-response actions that were successful.
+    """
+    httpFixedResponseCount: Metric! @metric(name: "AWS.ApplicationELB.HTTP_Fixed_Response_Count", units: "count")
+
+    """
+    The number of redirect actions that were successful.
+    """
+    httpRedirectCount: Metric! @metric(name: "AWS.ApplicationELB.HTTP_Redirect_Count", units: "count")
+
+    """
+    The number of redirect actions that couldn't be completed because the URL in the response location header is larger than 8K.
+    """
+    httpRedirectUrlLimitExceededCount: Metric! @metric(name: "AWS.ApplicationELB.HTTP_Redirect_Url_Limit_Exceeded_Count", units: "count")
+
+    """
+    The number of HTTP 3XX redirection codes that originate from the load balancer.
+    """
+    httpCodeElb3xxCount: Metric! @metric(name: "AWS.ApplicationELB.HTTPCode_ELB_3XX_Count", units: "count")
+
+    """
+    The number of HTTP 4XX client error codes that originate from the load balancer.
+    """
+    httpCodeElb4xxCount: Metric! @metric(name: "AWS.ApplicationELB.HTTPCode_ELB_4XX_Count", units: "count")
+
+    """
+    The number of HTTP 5XX server error codes that originate from the load balancer.
+    """
+    httpCodeElb5xxCount: Metric! @metric(name: "AWS.ApplicationELB.HTTPCode_ELB_5XX_Count", units: "count")
+
+    """
+    The number of HTTP 500 error codes that originate from the load balancer.
+    """
+    httpCodeElb500Count: Metric! @metric(name: "AWS.ApplicationELB.HTTPCode_ELB_500_Count", units: "count")
+
+    """
+    The number of HTTP 502 error codes that originate from the load balancer.
+    """
+    httpCodeElb502Count: Metric! @metric(name: "AWS.ApplicationELB.HTTPCode_ELB_502_Count", units: "count")
+
+    """
+    The number of HTTP 503 error codes that originate from the load balancer.
+    """
+    httpCodeElb503Count: Metric! @metric(name: "AWS.ApplicationELB.HTTPCode_ELB_503_Count", units: "count")
+
+    """
+    The number of HTTP 504 error codes that originate from the load balancer.
+    """
+    httpCodeElb504Count: Metric! @metric(name: "AWS.ApplicationELB.HTTPCode_ELB_504_Count", units: "count")
+
+    """    	
+    The total number of bytes processed by the load balancer over IPv6. This count is included in ProcessedBytes.
+    """
+    ipv6ProcessedBytes: Metric! @metric(name: "AWS.ApplicationELB.IPv6ProcessedBytes", units: "bytes")
+
+    """
+    The number of IPv6 requests received by the load balancer.
+    """
+    ipv6RequestCount: Metric! @metric(name: "AWS.ApplicationELB.IPv6RequestCount", units: "count")
+    
+    """
+    The total number of new TCP connections established from clients to the load balancer and from the load balancer to targets.
+    """
+    newConnectionCount: Metric! @metric(name: "AWS.ApplicationELB.NewConnectionCount", units: "count")
+
+    """
+    The number of requests where the load balancer chose a new target because it couldn't use an existing sticky session.
+    """
+    nonStickyRequestCount: Metric! @metric(name: "AWS.ApplicationELB.NonStickyRequestCount", units: "count")
+
+    """
+    The total number of bytes processed by the load balancer over IPv4 and IPv6.
+    """
+    processedBytes: Metric! @metric(name: "AWS.ApplicationELB.ProcessedBytes", units: "bytes")
+
+    """
+    The number of connections that were rejected because the load balancer had reached its maximum number of connections.
+    """
+    rejectedConnectionCount: Metric! @metric(name: "AWS.ApplicationELB.RejectedConnectionCount", units: "count")
+
+    """
+    The number of requests processed over IPv4 and IPv6. This metric is only incremented for requests where the load balancer node was able to choose a target.
+    """
+    requestCount: Metric! @metric(name: "AWS.ApplicationELB.RequestCount", units: "count")
+
+    """
+    The request rate processed over IPv4 and IPv6.
+    """
+    requestRate: Metric!
+    @metric(formula: "60 * SUM(AWS.ApplicationELB.RequestCount) / $aggregationPeriodInSeconds",
+        metricsUsedInFormula: ["AWS.ApplicationELB.RequestCount"],
+        name: "AWS.ApplicationELB.RequestRate",
+        units: "count")
+
+    """
+    The number of rules processed by the load balancer given a request rate averaged over an hour.
+    """
+    ruleEvaluations: Metric! @metric(name: "AWS.ApplicationELB.RuleEvaluations", units: "count")
+
+    """	
+    The number of targets that are considered healthy.
+    """
+    healthyHostCount: Metric! @metric(name: "AWS.ApplicationELB.HealthyHostCount", units: "count")
+
+    """
+    The number of HTTP 2XX response codes generated by the targets
+    """
+    httpCodeTarget2xxCount: Metric! @metric(name: "AWS.ApplicationELB.HTTPCode_Target_3XX_Count", units: "count")
+
+    """
+    The number of HTTP 3XX response codes generated by the targets
+    """
+    httpCodeTarget3xxCount: Metric! @metric(name: "AWS.ApplicationELB.HTTPCode_Target_3XX_Count", units: "count")
+
+    """
+    The number of HTTP 4XX response codes generated by the targets
+    """
+    httpCodeTarget4xxCount: Metric! @metric(name: "AWS.ApplicationELB.HTTPCode_Target_4XX_Count", units: "count")
+
+    """
+    The number of HTTP 5XX response codes generated by the targets
+    """
+    httpCodeTarget5xxCount: Metric! @metric(name: "AWS.ApplicationELB.HTTPCode_Target_5XX_Count", units: "count")
+
+    """
+    The average number of requests received by each target in a target group. 
+    """
+    requestCountPerTarget: Metric! @metric(name: "AWS.ApplicationELB.RequestCountPerTarget", units: "count")
+
+    """
+    The number of connections that were not successfully established between the load balancer and target.
+    """
+    targetConnectionErrorCount: Metric! @metric(name: "AWS.ApplicationELB.TargetConnectionErrorCount", units: "count")
+
+    """
+    The time elapsed, in seconds, after the request leaves the load balancer until a response from the target is received.
+    """
+    targetResponseTime: Metric! @metric(name: "AWS.ApplicationELB.TargetResponseTime", units: "s")
+
+    """
+    The number of TLS connections initiated by the load balancer that did not establish a session with the target.
+    """
+    targetTlsNegotiationErrorCount: Metric! @metric(name: "AWS.ApplicationELB.TargetTLSNegotiationErrorCount", units: "count")
+
+    """
+    The number of targets that are considered unhealthy.
+    """
+    unHealthyHostCount: Metric! @metric(name: "AWS.ApplicationELB.UnHealthyHostCount", units: "count")
+
+    """
+    The number of requests to a Lambda function that failed because of an issue internal to the load balancer or AWS Lambda. 
+    """
+    lambdaInternalError: Metric! @metric(name: "AWS.ApplicationELB.LambdaInternalError", units: "count")
+
+    """
+    The total number of bytes processed by the load balancer for requests to and responses from a Lambda function.
+    """
+    lambdaTargetProcessedBytes: Metric! @metric(name: "AWS.ApplicationELB.LambdaTargetProcessedBytes", units: "bytes")
+
+    """
+    The number of requests to a Lambda function that failed because of an issue with the Lambda function.
+    """
+    lambdaUserError: Metric! @metric(name: "AWS.ApplicationELB.LambdaUserError", units: "count")
+
+    """
+    The number of user authentications that could not be completed because an authenticate action was misconfigured, the load balancer couldn't establish a connection with the IdP, or the load balancer couldn't complete the authentication flow due to an internal error.
+    """
+    elbAuthError: Metric! @metric(name: "AWS.ApplicationELB.ELBAuthError", units: "count")
+
+    """
+    The number of user authentications that could not be completed because the IdP denied access to the user or an authorization code was used more than once.
+    """
+    elbAuthFailure: Metric! @metric(name: "AWS.ApplicationELB.ELBAuthFailure", units: "count")
+
+    """
+    The time elapsed, in milliseconds, to query the IdP for the ID token and user info.
+    """
+    elbAuthLatency: Metric! @metric(name: "AWS.ApplicationELB.ELBAuthLatency", units: "ms")
+
+    """
+    The number of times the load balancer successfully refreshed user claims using a refresh token provided by the IdP.
+    """
+    elbAuthRefreshTokenSuccess: Metric! @metric(name: "AWS.ApplicationELB.ELBAuthRefreshTokenSuccess", units: "count")
+
+    """
+    The number of authenticate actions that were successful.
+    """
+    elbAuthSuccess: Metric! @metric(name: "AWS.ApplicationELB.ELBAuthSuccess", units: "count")
+
+    """
+    The number of times that a configured IdP returned user claims that exceeded 11K bytes in size.
+    """
+    elbAuthUserClaimsSizeExceeded: Metric! @metric(name: "AWS.ApplicationELB.ELBAuthUserClaimsSizeExceeded", units: "count")
+
+    """
+    The UnHealthyHost rate metric is used in health score for AWS ALB, which is sum of UnHealthyHostCount by total number of UnHealthyHostCount and HealthyHostCount.
+    """
+    unHealthyHostRate: Metric!
+        @metric(
+            formula: "(SUM(AWS.ApplicationELB.UnHealthyHostCount) / (SUM(AWS.ApplicationELB.UnHealthyHostCount) + SUM(AWS.ApplicationELB.HealthyHostCount)))*100",
+            metricsUsedInFormula: ["AWS.ApplicationELB.UnHealthyHostCount", "AWS.ApplicationELB.HealthyHostCount"],
+            units: "percentage",
+            name: "AWS.ApplicationELB.UnHealthyHostRate"
+        )
+
+    """
+    The HealthyHostRate metric provides percentage of healthy hosts over all the hosts(healthy & unhealthy)
+    """
+    healthyHostRate: Metric!
+        @metric(
+            formula: "(SUM(AWS.ApplicationELB.HealthyHostCount) / (SUM(AWS.ApplicationELB.UnHealthyHostCount) + SUM(AWS.ApplicationELB.HealthyHostCount)))*100",
+            metricsUsedInFormula: ["AWS.ApplicationELB.UnHealthyHostCount", "AWS.ApplicationELB.HealthyHostCount"],
+            units: "percentage",
+            name: "AWS.ApplicationELB.HealthyHostRate"
+        )
+
+    """
+    50th Target response time percentile
+    """
+    targetResponseTimeP50: Metric!  @metric(name: "AWS.ApplicationELB.TargetResponseTime.p50", units: "seconds")
+
+    """
+    90th Target response time percentile
+    """
+    targetResponseTimeP90: Metric!  @metric(name: "AWS.ApplicationELB.TargetResponseTime.p90", units: "seconds")
+
+    """
+    99th Target response time percentile
+    """
+    targetResponseTimeP99: Metric!  @metric(name: "AWS.ApplicationELB.TargetResponseTime.p99", units: "seconds")
+
+
+}
